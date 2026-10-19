@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="560dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog"
+    android:orientation="vertical"
+    android:padding="26dp">
+
+    <!-- Dialog Header -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🌐 Website Pinnen als App"
+        android:textColor="@color/text_primary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:text="Kies een snelle suggestie of voer een eigen URL in:"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp" />
+
+    <!-- Presets Horizontal Scroll / Container -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="SNELKIEZER:"
+        android:textColor="@color/accent_blue"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/ll_presets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/preset_twitch"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_button_selector"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="🟣 Twitch"
+                android:textColor="@color/text_primary"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/preset_stremio"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_button_selector"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="🎬 Stremio Web"
+                android:textColor="@color/text_primary"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/preset_nos"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_button_selector"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="🔴 NOS Nieuws"
+                android:textColor="@color/text_primary"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/preset_reddit"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_button_selector"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="💬 Reddit"
+                android:textColor="@color/text_primary"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/preset_soundcloud"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_button_selector"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="☁️ SoundCloud"
+                android:textColor="@color/text_primary"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/preset_kick"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_button_selector"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="🟢 Kick"
+                android:textColor="@color/text_primary"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/preset_ha"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:background="@drawable/bg_button_selector"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="🏠 Home Assistant"
+                android:textColor="@color/text_primary"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- Custom Title Input -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:text="NAAM VAN DE APP:"
+        android:textColor="@color/text_secondary"
+        android:textSize="11sp" />
+
+    <EditText
+        android:id="@+id/et_web_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="14dp"
+        android:background="@drawable/bg_input"
+        android:focusable="true"
+        android:hint="bijv. Twitch"
+        android:imeOptions="actionNext"
+        android:inputType="textCapWords"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/text_tertiary"
+        android:textSize="14sp" />
+
+    <!-- Custom URL Input -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:text="WEBSITE URL (incl. https://):"
+        android:textColor="@color/text_secondary"
+        android:textSize="11sp" />
+
+    <EditText
+        android:id="@+id/et_web_url"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_input"
+        android:focusable="true"
+        android:hint="https://m.twitch.tv"
+        android:imeOptions="actionDone"
+        android:inputType="textUri"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/text_tertiary"
+        android:textSize="14sp" />
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_dialog_cancel"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/bg_button_selector"
+            android:focusable="true"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="Annuleren"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_dialog_save"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_button_selector"
+            android:focusable="true"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:text="Pinnen aan TV"
+            android:textColor="@color/accent_blue"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

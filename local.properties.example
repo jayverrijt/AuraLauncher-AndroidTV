@@ -1,0 +1,9 @@
+# Location of the Android SDK
+sdk.dir=/path/to/android/sdk
+
+# Optional: Smart Speaker IP (Google Cast / Nest Speaker)
+# If omitted, defaults to 192.168.1.100
+speaker.ip=192.168.1.100
+speaker.name=Smart Speaker
+speaker.room=Slaapkamer
+home.name=Smart Home

@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="660dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog"
+    android:orientation="vertical"
+    android:padding="18dp">
+
+    <!-- Header -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_music" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Speaker &amp; Spotify Bediening"
+                    android:textColor="@color/text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_music_dialog_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Afspelen op Smart Speaker"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/badge_music_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_badge"
+            android:paddingStart="10dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="4dp"
+            android:text="● Speelt Af"
+            android:textColor="#1DB954"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!-- Section: Now Playing Live Metadata -->
+    <LinearLayout
+        android:id="@+id/card_now_playing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_card_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#1E293B">
+
+            <ImageView
+                android:id="@+id/iv_now_playing_art"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_music" />
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_now_playing_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Zoeken naar actieve muziek..."
+                android:textColor="@color/text_primary"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_now_playing_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Smart Speaker (Slaapkamer)"
+                android:textColor="#1DB954"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_now_playing_volume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="🔊 Volume: 20%"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/pb_now_playing_loading"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="6dp"
+            android:indeterminate="true"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- Section 1: Speaker Selector -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:text="ACTIEVE SPEAKER"
+        android:textColor="@color/accent_blue"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <!-- Speaker Choice 1 -->
+        <LinearLayout
+            android:id="@+id/card_select_speaker_1"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_card_selector"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:nextFocusRight="@+id/card_select_speaker_2"
+            android:nextFocusDown="@+id/btn_music_prev"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp">
+
+            <TextView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_button_selector"
+                android:gravity="center"
+                android:text="🔊"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_choice_speaker_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Speaker 1"
+                    android:textColor="@color/text_primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_sub_speaker_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kamer 1 • Geselecteerd"
+                    android:textColor="#1DB954"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Speaker Choice 2 -->
+        <LinearLayout
+            android:id="@+id/card_select_speaker_2"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_card_selector"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:nextFocusLeft="@+id/card_select_speaker_1"
+            android:nextFocusDown="@+id/btn_music_play_pause"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp">
+
+            <TextView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_button_selector"
+                android:gravity="center"
+                android:text="🔊"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_choice_speaker_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Speaker 2"
+                    android:textColor="@color/text_primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_sub_speaker_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Standby"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Section 2: Main Playback Controls -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:text="BEDIENING"
+        android:textColor="@color/accent_blue"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <!-- 1. Vorige (⏮️) -->
+        <Button
+            android:id="@+id/btn_music_prev"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_selector"
+            android:focusable="true"
+            android:nextFocusUp="@+id/card_select_speaker_1"
+            android:nextFocusRight="@+id/btn_music_play_pause"
+            android:nextFocusDown="@+id/btn_music_like"
+            android:text="⏮ Vorige"
+            android:textColor="@color/text_primary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <!-- 2. Afspelen / Pauzeren (⏯️) -->
+        <Button
+            android:id="@+id/btn_music_play_pause"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1.2"
+            android:background="@drawable/bg_button_selector"
+            android:focusable="true"
+            android:nextFocusUp="@+id/card_select_speaker_2"
+            android:nextFocusLeft="@+id/btn_music_prev"
+            android:nextFocusRight="@+id/btn_music_stop"
+            android:nextFocusDown="@+id/btn_music_vol_down"
+            android:text="⏸ Pauzeren"
+            android:textColor="#1DB954"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <!-- 3. Stoppen (⏹️) -->
+        <Button
+            android:id="@+id/btn_music_stop"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_selector"
+            android:focusable="true"
+            android:nextFocusUp="@+id/card_select_speaker_2"
+            android:nextFocusLeft="@+id/btn_music_play_pause"
+            android:nextFocusRight="@+id/btn_music_next"
+            android:nextFocusDown="@+id/btn_music_vol_up"
+            android:text="⏹ Stoppen"
+            android:textColor="#EF4444"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <!-- 4. Volgende (⏭️) -->
+        <Button
+            android:id="@+id/btn_music_next"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_selector"
+            android:focusable="true"
+            android:nextFocusUp="@+id/card_select_speaker_2"
+            android:nextFocusLeft="@+id/btn_music_stop"
+            android:nextFocusDown="@+id/btn_music_vol_up"
+            android:text="⏭ Volgende"
+            android:textColor="@color/text_primary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Section 3: Extra Actions (Like & Volume +/- 5%) -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:text="VOLUME (-5% / +5%) &amp; FAVORIET"
+        android:textColor="@color/accent_blue"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <!-- Like / Favoriet Button -->
+        <Button
+            android:id="@+id/btn_music_like"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_selector"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_music_prev"
+            android:nextFocusRight="@+id/btn_music_vol_down"
+            android:nextFocusDown="@+id/btn_preset_low"
+            android:text="❤️ Favoriet"
+            android:textColor="@color/text_primary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <!-- Volume Down -5% -->
+        <Button
+            android:id="@+id/btn_music_vol_down"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_selector"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_music_play_pause"
+            android:nextFocusLeft="@+id/btn_music_like"
+            android:nextFocusRight="@+id/btn_music_vol_up"
+            android:nextFocusDown="@+id/btn_preset_mid"
+            android:text="🔉 -5% Zachter"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
+
+        <!-- Volume Up +5% -->
+        <Button
+            android:id="@+id/btn_music_vol_up"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_selector"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_music_stop"
+            android:nextFocusLeft="@+id/btn_music_vol_down"
+            android:nextFocusDown="@+id/btn_preset_high"
+            android:text="🔊 +5% Harder"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- Section 4: Volume Presets -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:text="VOLUME PRESETS (1 • 2 • 3)"
+        android:textColor="@color/accent_blue"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal">
+
+        <!-- Preset 1: Laag (20%) -->
+        <Button
+            android:id="@+id/btn_preset_low"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_selector"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_music_like"
+            android:nextFocusRight="@+id/btn_preset_mid"
+            android:nextFocusDown="@+id/btn_open_spotify_app"
+            android:text="1️⃣ Laag (20%)"
+            android:textColor="@color/text_primary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <!-- Preset 2: Midden (50%) -->
+        <Button
+            android:id="@+id/btn_preset_mid"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_selector"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_music_vol_down"
+            android:nextFocusLeft="@+id/btn_preset_low"
+            android:nextFocusRight="@+id/btn_preset_high"
+            android:nextFocusDown="@+id/btn_open_spotify_app"
+            android:text="2️⃣ Midden (50%)"
+            android:textColor="@color/text_primary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <!-- Preset 3: Hoog (75%) -->
+        <Button
+            android:id="@+id/btn_preset_high"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_selector"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_music_vol_up"
+            android:nextFocusLeft="@+id/btn_preset_mid"
+            android:nextFocusDown="@+id/btn_close_music_dialog"
+            android:text="3️⃣ Hoog (75%)"
+            android:textColor="@color/text_primary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Bottom Actions -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_open_spotify_app"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button_selector"
+            android:focusable="true"
+            android:nextFocusUp="@+id/btn_preset_low"
+            android:nextFocusRight="@+id/btn_close_music_dialog"
+            android:text="🎧 Open Spotify TV App"
+            android:textColor="@color/accent_blue"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_close_music_dialog"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_button_selector"
+            android:focusable="true"
+            android:nextFocusLeft="@+id/btn_open_spotify_app"
+            android:nextFocusUp="@+id/btn_preset_high"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="Sluiten"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</LinearLayout>
