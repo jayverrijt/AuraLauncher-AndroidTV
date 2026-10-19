@@ -4,7 +4,7 @@ A lightweight, modern, ad-free Android TV launcher crafted for performance, smoo
 
 ---
 
-## ✨ Features
+## Features
 
 - **Blazing Fast & Clean Interface**: Minimalist dashboard designed specifically for 1080p and 4K Android TV remote navigation.
 - **Smart Speaker & Spotify Hub**:
@@ -23,7 +23,7 @@ A lightweight, modern, ad-free Android TV launcher crafted for performance, smoo
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -67,7 +67,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ---
 
-## 🧹 TV Debloating Utilities
+## TV Debloating Utilities
 
 Two helper shell scripts are included for debloating and restoring system packages:
 
@@ -81,6 +81,6 @@ Usage:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License.
