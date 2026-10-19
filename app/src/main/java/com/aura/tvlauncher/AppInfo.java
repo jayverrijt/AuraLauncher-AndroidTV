@@ -1,5 +1,6 @@
 package com.aura.tvlauncher;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 
 public class AppInfo {
@@ -7,12 +8,18 @@ public class AppInfo {
     private final String packageName;
     private final Drawable icon;
     private boolean isFavorite;
+    private Intent customIntent;
 
     public AppInfo(String label, String packageName, Drawable icon, boolean isFavorite) {
+        this(label, packageName, icon, isFavorite, null);
+    }
+
+    public AppInfo(String label, String packageName, Drawable icon, boolean isFavorite, Intent customIntent) {
         this.label = label;
         this.packageName = packageName;
         this.icon = icon;
         this.isFavorite = isFavorite;
+        this.customIntent = customIntent;
     }
 
     public String getLabel() {
@@ -33,5 +40,13 @@ public class AppInfo {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public Intent getCustomIntent() {
+        return customIntent;
+    }
+
+    public void setCustomIntent(Intent customIntent) {
+        this.customIntent = customIntent;
     }
 }

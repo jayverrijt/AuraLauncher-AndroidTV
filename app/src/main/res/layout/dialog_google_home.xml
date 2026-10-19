@@ -101,11 +101,12 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_device_tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="32PFS6906/12"
+                    android:text="Android TV"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"
                     android:textStyle="bold" />

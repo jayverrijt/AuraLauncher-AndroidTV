@@ -89,6 +89,11 @@ public class MainActivity extends AppCompatActivity {
         boolean adblockOn = prefs.getBoolean(KEY_ADBLOCK, true);
         AdBlocker.setEnabled(adblockOn);
 
+        // Check if AuraOS initial setup wizard has run
+        if (!prefs.getBoolean(SetupActivity.KEY_SETUP_COMPLETED, false)) {
+            startActivity(new Intent(this, SetupActivity.class));
+        }
+
         initViews();
         setupClock();
         setupAdapters();
@@ -333,13 +338,27 @@ public class MainActivity extends AppCompatActivity {
                     apps.add(new AppInfo(label, pkg, icon, isFav));
                 }
 
+                // Sort installed apps alphabetically
+                Collections.sort(apps, (a, b) -> a.getLabel().compareToIgnoreCase(b.getLabel()));
+
+                // Add AuraOS Native TV Apps at the front
+                Drawable tvIcon = androidx.appcompat.content.res.AppCompatResources.getDrawable(MainActivity.this, R.drawable.ic_tv);
+                Intent streamTvIntent = new Intent(MainActivity.this, StreamTvActivity.class);
+                AppInfo streamTvApp = new AppInfo("Stream TV", "com.aura.tvlauncher.streamtv", tvIcon, true, streamTvIntent);
+
+                Drawable settingsIcon = androidx.appcompat.content.res.AppCompatResources.getDrawable(MainActivity.this, R.drawable.ic_settings);
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                AppInfo settingsApp = new AppInfo("Instellingen", "com.aura.tvlauncher.settings", settingsIcon, false, settingsIntent);
+
+                apps.add(0, streamTvApp);
+                apps.add(settingsApp);
+                favoritePackages.add("com.aura.tvlauncher.streamtv");
+                favoritePackages.remove("com.aura.tvlauncher.settings");
+
                 prefs.edit()
                         .putStringSet(KEY_FAVORITES, favoritePackages)
                         .putBoolean(KEY_FIRST_RUN, false)
                         .apply();
-
-                // Sort alphabetically
-                Collections.sort(apps, (a, b) -> a.getLabel().compareToIgnoreCase(b.getLabel()));
                 return apps;
             }
 
@@ -368,13 +387,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Set<String> getFavoritePackageNames() {
-        return new HashSet<>(prefs.getStringSet(KEY_FAVORITES, new HashSet<>()));
+        Set<String> favs = new HashSet<>(prefs.getStringSet(KEY_FAVORITES, new HashSet<>()));
+        favs.remove("com.aura.tvlauncher.settings");
+        return favs;
     }
 
     private void saveFavorites() {
         Set<String> favs = new HashSet<>();
         for (AppInfo app : allAppsList) {
-            if (app.isFavorite()) {
+            if (app.isFavorite() && !"com.aura.tvlauncher.settings".equals(app.getPackageName())) {
                 favs.add(app.getPackageName());
             }
         }
@@ -384,7 +405,13 @@ public class MainActivity extends AppCompatActivity {
     private void refreshFavoritesList() {
         favoritesList.clear();
         for (AppInfo app : allAppsList) {
-            if (app.isFavorite()) {
+            if ("com.aura.tvlauncher.streamtv".equals(app.getPackageName())) {
+                favoritesList.add(app);
+                break;
+            }
+        }
+        for (AppInfo app : allAppsList) {
+            if (app.isFavorite() && !"com.aura.tvlauncher.streamtv".equals(app.getPackageName()) && !"com.aura.tvlauncher.settings".equals(app.getPackageName())) {
                 favoritesList.add(app);
             }
         }
@@ -395,24 +422,18 @@ public class MainActivity extends AppCompatActivity {
         webAppsList.clear();
         String json = prefs.getString(KEY_WEB_APPS, null);
         if (json == null) {
-            webAppsList.add(new WebAppInfo("bbhtv", "BBH TV", "https://ott.bbhtv.nl/pctv/", "#0284C7", "B"));
             webAppsList.add(new WebAppInfo("stremio", "Stremio Web", "https://web.stremio.com", "#6C5CE7", "S"));
             webAppsList.add(new WebAppInfo("nos", "NOS Nieuws", "https://nos.nl", "#EF4444", "N"));
             saveWebApps();
         } else {
             try {
                 JSONArray arr = new JSONArray(json);
-                boolean hasBbh = false;
                 for (int i = 0; i < arr.length(); i++) {
                     WebAppInfo app = WebAppInfo.fromJsonObject(arr.getJSONObject(i));
                     if ("bbhtv".equals(app.getId()) || (app.getUrl() != null && app.getUrl().contains("bbhtv"))) {
-                        hasBbh = true;
+                        continue;
                     }
                     webAppsList.add(app);
-                }
-                if (!hasBbh) {
-                    webAppsList.add(0, new WebAppInfo("bbhtv", "BBH TV", "https://ott.bbhtv.nl/pctv/", "#0284C7", "B"));
-                    saveWebApps();
                 }
             } catch (Exception ignored) {}
         }
@@ -507,14 +528,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnSettings.setOnClickListener(v -> {
-            try {
-                Intent settingsIntent = new Intent(Settings.ACTION_SETTINGS);
-                settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(settingsIntent);
-            } catch (Exception e) {
-                Toast.makeText(this, "Kan Instellingen niet openen", Toast.LENGTH_SHORT).show();
-            }
+            dialog.dismiss();
+            startActivity(new Intent(this, SettingsActivity.class));
         });
+
+        Button btnAndroidSettings = dialog.findViewById(R.id.btn_submenu_android_settings);
+        if (btnAndroidSettings != null) {
+            btnAndroidSettings.setOnClickListener(v -> {
+                dialog.dismiss();
+                try {
+                    Intent settingsIntent = new Intent(Settings.ACTION_SETTINGS);
+                    settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(settingsIntent);
+                } catch (Exception e) {
+                    Toast.makeText(this, "Kan Android instellingen niet openen", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
         btnReload.setOnClickListener(v -> {
             loadInstalledApps();
@@ -557,14 +587,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
         TextView tvHomeSectionTitle = dialog.findViewById(R.id.tv_home_section_title);
+        String sRoom = prefs.getString("key_speaker_room", BuildConfig.DEFAULT_SPEAKER_ROOM);
         if (tvHomeSectionTitle != null) {
-            tvHomeSectionTitle.setText(BuildConfig.DEFAULT_SPEAKER_ROOM.toUpperCase() + " (3 APPARATEN)");
+            tvHomeSectionTitle.setText(sRoom.toUpperCase() + " (3 APPARATEN)");
+        }
+
+        TextView badgeHomeName = dialog.findViewById(R.id.badge_home_name);
+        if (badgeHomeName != null) {
+            badgeHomeName.setText(prefs.getString("key_home_name", BuildConfig.DEFAULT_HOME_NAME));
+        }
+
+        TextView tvDeviceTv = dialog.findViewById(R.id.tv_device_tv_name);
+        if (tvDeviceTv != null) {
+            tvDeviceTv.setText(android.os.Build.MODEL);
         }
 
         View cardSpeakerPrimary = dialog.findViewById(R.id.card_device_speaker_primary);
         TextView tvNameSpeakerPrimary = dialog.findViewById(R.id.tv_name_speaker_primary);
+        String sName = prefs.getString("key_speaker_name", BuildConfig.DEFAULT_SPEAKER_NAME);
         if (tvNameSpeakerPrimary != null) {
-            tvNameSpeakerPrimary.setText(BuildConfig.DEFAULT_SPEAKER_NAME);
+            tvNameSpeakerPrimary.setText(sName);
         }
         TextView tvSpeakerPrimary = dialog.findViewById(R.id.tv_status_speaker_primary);
         TextView iconSpeakerPrimary = dialog.findViewById(R.id.icon_device_speaker_primary);
@@ -594,7 +636,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         cardTv.setOnClickListener(v -> {
-            Toast.makeText(this, "📺 32PFS6906/12 • Philips Ambilight TV is ingeschakeld", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "📺 " + android.os.Build.MODEL + " • Android TV is actief", Toast.LENGTH_SHORT).show();
         });
 
         cardBed.setOnClickListener(v -> {
@@ -616,7 +658,7 @@ public class MainActivity extends AppCompatActivity {
             speakerPrimaryPlaying[0] = !speakerPrimaryPlaying[0];
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean(KEY_SPEAKER_PRIMARY_PLAYING, speakerPrimaryPlaying[0]);
-            String speakerName = BuildConfig.DEFAULT_SPEAKER_NAME;
+            String speakerName = prefs.getString("key_speaker_name", BuildConfig.DEFAULT_SPEAKER_NAME);
             if (speakerPrimaryPlaying[0]) {
                 editor.putString(KEY_ACTIVE_SPEAKER, speakerName);
             }
@@ -666,11 +708,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnOpenWeb = dialog.findViewById(R.id.btn_open_google_home_web);
         btnOpenWeb.setOnClickListener(v -> {
             dialog.dismiss();
-            Intent intent = new Intent(this, WebActivity.class);
-            intent.putExtra(WebActivity.EXTRA_URL, "https://home.google.com");
-            intent.putExtra(WebActivity.EXTRA_TITLE, "Google Home • " + BuildConfig.DEFAULT_HOME_NAME);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            AndroidSetupHelper.openGoogleHome(this);
         });
 
         Button btnClose = dialog.findViewById(R.id.btn_close_home);

@@ -9,9 +9,9 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
-def speakerIp = localProperties.getProperty('speaker.ip', '192.168.1.100')
+def speakerIp = localProperties.getProperty('speaker.ip', '')
 def speakerName = localProperties.getProperty('speaker.name', 'Smart Speaker')
-def speakerRoom = localProperties.getProperty('speaker.room', 'Slaapkamer')
+def speakerRoom = localProperties.getProperty('speaker.room', 'Woonkamer')
 def homeName = localProperties.getProperty('home.name', 'Smart Home')
 
 android {

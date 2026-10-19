@@ -68,6 +68,12 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppViewHolder>
         // Click to launch app
         holder.itemView.setOnClickListener(v -> {
             try {
+                if (app.getCustomIntent() != null) {
+                    Intent custom = new Intent(app.getCustomIntent());
+                    custom.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(custom);
+                    return;
+                }
                 Intent launchIntent = context.getPackageManager().getLeanbackLaunchIntentForPackage(app.getPackageName());
                 if (launchIntent == null) {
                     launchIntent = context.getPackageManager().getLaunchIntentForPackage(app.getPackageName());
